@@ -1,257 +1,715 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tinder — страница приложения</title>
-  <style>
-    :root {
-      --tinder-red: #e50914;
-      --pale-pink: #f3e6ef;
-      --text: #171717;
-      --muted: #8a8a8a;
-      --line: #eeeeee;
-      --blue: #168bf0;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: #fff;
-    }
-    .page { width: 100%; max-width: 760px; margin: 0 auto; overflow: hidden; }
-    .hero {
-      height: 230px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 20px;
-      background: var(--pale-pink);
-    }
-    .wordmark {
-      color: var(--tinder-red);
-      font-size: clamp(48px, 13vw, 102px);
-      line-height: 1;
-      letter-spacing: -5px;
-      font-weight: 950;
-      transform: scaleX(.94);
-    }
-    .app-info {
-      display: flex;
-      gap: 22px;
-      padding: 27px 27px 28px;
-      align-items: center;
-      border-bottom: 1px solid #f4f4f4;
-    }
-    .app-icon {
-      width: 158px;
-      height: 158px;
-      flex: 0 0 158px;
-      background: #df090e;
-      border-radius: 34px;
-      display: grid;
-      place-items: center;
-    }
-    .flame {
-      width: 83px;
-      height: 112px;
-      background: #f5e7f0;
-      clip-path: path("M 42 0 C 55 22 48 37 39 49 C 33 55 28 53 27 43 C 12 56 4 72 9 88 C 14 106 31 113 47 111 C 69 108 82 91 81 71 C 80 49 64 25 42 0 Z");
-      border-radius: 50%;
-    }
-    .app-copy { min-width: 0; flex: 1; }
-    .app-copy h1 {
-      font-size: 28px;
-      line-height: 1.25;
-      margin: 0 0 5px;
-      font-weight: 750;
-      letter-spacing: -.5px;
-    }
-    .subtitle { color: var(--muted); font-size: 20px; margin: 0 0 17px; }
-    .actions { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
-    .download {
-      display: inline-block;
-      color: white;
-      background: var(--blue);
-      border-radius: 28px;
-      padding: 11px 20px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 18px;
-      white-space: nowrap;
-    }
-    .iap { font-size: 11px; line-height: 1.2; color: #777; }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 17px 0 22px;
-      border-bottom: 1px solid #f5f5f5;
-    }
-    .stat { text-align: center; padding: 0 7px; min-width: 0; }
-    .stat + .stat { border-left: 1px solid #f1f1f1; }
-    .stat-label {
-      font-size: 14px;
-      color: #a6a6a6;
-      letter-spacing: .6px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .stat-value { color: #858585; font-size: 29px; font-weight: 650; line-height: 1.1; }
-    .stat-note { color: #777; font-size: 16px; white-space: nowrap; margin-top: 10px; }
-    .profile-symbol {
-      display: inline-block; width: 34px; height: 34px;
-      border: 5px solid #888; border-radius: 7px; position: relative;
-      vertical-align: middle; margin-top: -4px;
-    }
-    .profile-symbol:before {
-      content: ""; position: absolute; width: 10px; height: 10px;
-      border-radius: 50%; background: #888; top: 3px; left: 7px;
-    }
-    .profile-symbol:after {
-      content: ""; position: absolute; width: 19px; height: 8px;
-      border-radius: 10px 10px 3px 3px; background: #888; bottom: 2px; left: 2.5px;
-    }
-    .previews {
-      display: flex;
-      gap: 14px;
-      padding: 26px 27px 35px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .previews::-webkit-scrollbar { display: none; }
-    .preview {
-      position: relative;
-      flex: 0 0 348px;
-      height: 520px;
-      border-radius: 31px;
-      overflow: hidden;
-      background: #e9e9e9;
-      border: 1px solid #e6e6e6;
-    }
-    .preview-one {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 43%),
-        radial-gradient(ellipse at 18% 90%, #9b6b54 0 15%, transparent 34%),
-        radial-gradient(ellipse at 75% 91%, #c58d72 0 17%, transparent 34%),
-        linear-gradient(130deg, #d4e0d5, #f8f8f5 38%, #9fb3b0 75%, #dfe7db);
-    }
-    .preview-one:before, .preview-one:after {
-      content: ""; position: absolute; bottom: -35px; width: 185px; height: 270px;
-      border-radius: 48% 48% 12% 12%;
-      background: linear-gradient(145deg, #d99e7c, #8e4c39 55%, #3e3433);
-      transform: rotate(-13deg);
-    }
-    .preview-one:before { left: -12px; }
-    .preview-one:after {
-      right: -15px; transform: rotate(13deg);
-      background: linear-gradient(145deg, #f0c5a8, #b97e64 55%, #58413d);
-    }
-    .preview-heading {
-      position: relative; z-index: 1; text-align: center;
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 700; font-size: 43px; line-height: .98;
-      margin: 57px 12px 0; color: #273438;
-    }
-    .preview-two {
-      background: radial-gradient(ellipse at 50% 82%, #df9b6c 0 13%, transparent 32%),
-                  linear-gradient(160deg, #57000b 0 48%, #17120f 49%, #080808 100%);
-      color: #fff;
-    }
-    .preview-two .preview-heading {
-      font-size: 29px; line-height: 1.05; margin: 58px 10px 0; color: #fff;
-    }
-    .chat-bubble {
-      position: absolute; right: -8px; top: 205px; background: #fff; color: #222;
-      border-radius: 15px; padding: 18px 14px; width: 155px;
-      font-size: 17px; font-weight: 650; transform: rotate(2deg);
-    }
-    .woman-shape {
-      position: absolute; bottom: -25px; left: 56px; width: 130px; height: 220px;
-      border-radius: 48% 48% 8% 8%;
-      background: linear-gradient(90deg, #d28b69, #f2bd99 48%, #b8765d);
-      transform: rotate(-5deg);
-    }
-    @media (max-width: 520px) {
-      .hero { height: 230px; padding-top: 23px; }
-      .wordmark { letter-spacing: -3px; }
-      .app-info { gap: 20px; padding: 27px 27px 28px; }
-      .app-icon { width: 158px; height: 158px; flex-basis: 158px; }
-      .app-copy h1 { font-size: 27px; }
-      .subtitle { font-size: 20px; }
-      .stat-label { font-size: 13px; }
-      .stat-value { font-size: 28px; }
-      .stat-note { font-size: 15px; }
-      .preview { flex-basis: 348px; }
-    }
-    @media (max-width: 410px) {
-      .app-info { gap: 15px; padding-left: 18px; padding-right: 18px; }
-      .app-icon { width: 115px; height: 115px; flex-basis: 115px; border-radius: 27px; }
-      .flame { transform: scale(.78); }
-      .app-copy h1 { font-size: 21px; }
-      .subtitle { font-size: 15px; margin-bottom: 12px; }
-      .download { font-size: 15px; padding: 9px 15px; }
-      .iap { font-size: 9px; }
-      .stat-label { font-size: 10px; }
-      .stat-value { font-size: 23px; }
-      .stat-note { font-size: 11px; }
-      .previews { padding-left: 18px; padding-right: 18px; }
-      .preview { flex-basis: 300px; height: 470px; }
-      .preview-heading { font-size: 37px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datyx — знакомства в Telegram</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --brand: #e50914;
+  --blue: #168bf0;
+  --ink: #171717;
+  --muted: #a6a6a6;
+  --line: #f1f1f1;
+  --soft: #f5f5f5;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+
+/* ============ Верхняя часть ============ */
+.hero {
+  height: 105px;
+  background: #f3e6ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wordmark {
+  color: var(--brand);
+  font-size: clamp(38px, 10vw, 74px);
+  font-weight: 950;
+  letter-spacing: -4px;
+  line-height: 1;
+}
+
+/* ============ Информация о приложении ============ */
+.app-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-icon {
+  width: 112px;
+  height: 112px;
+  flex: 0 0 112px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #df090e;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+}
+
+.app-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.app-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.app-copy h1 {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0 0 5px;
+  font-weight: 750;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 16px;
+  margin: 0 0 11px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.download {
+  display: inline-block;
+  color: #fff;
+  background: var(--blue);
+  border-radius: 25px;
+  padding: 8px 15px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter .15s ease, transform .15s ease;
+}
+
+.download:hover { filter: brightness(.94); }
+.download:active { transform: scale(.97); }
+
+.iap {
+  color: #777;
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+/* ============ Информация и рейтинг ============ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 13px 0 17px;
+  border-bottom: 1px solid var(--soft);
+}
+
+.stat {
+  text-align: center;
+  padding: 0 5px;
+  min-width: 0;
+}
+
+.stat + .stat {
+  border-left: 1px solid var(--line);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .4px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  color: #858585;
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+.stat-note {
+  color: #777;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-top: 7px;
+}
+
+.profile-symbol {
+  display: inline-block;
+  width: 29px;
+  height: 29px;
+  border: 4px solid #888;
+  border-radius: 6px;
+  position: relative;
+}
+
+.profile-symbol::before {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #888;
+  top: 2px;
+  left: 6px;
+}
+
+.profile-symbol::after {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 7px;
+  border-radius: 9px 9px 3px 3px;
+  background: #888;
+  bottom: 1px;
+  left: 2px;
+}
+
+/* ============ Карточки-превью ============ */
+.previews {
+  display: flex;
+  gap: 14px;
+  padding: 20px 22px 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.previews::-webkit-scrollbar {
+  display: none;
+}
+
+.preview {
+  position: relative;
+  flex: 0 0 300px;
+  height: 450px;
+  border-radius: 25px;
+  overflow: hidden;
+  border: 1px solid #e6e6e6;
+  scroll-snap-align: start;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ============ Общие заголовки ============ */
+.section {
+  border-bottom: 1px solid var(--line);
+  padding: 22px 22px 26px;
+}
+
+.section:last-of-type {
+  border-bottom: 0;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 750;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title .link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+/* ============ Рейтинг ============ */
+.rating {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+.rating-score {
+  text-align: center;
+}
+
+.rating-score .score {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  color: #4a4a4a;
+}
+
+.stars {
+  color: #c9c9c9;
+  font-size: 15px;
+  letter-spacing: 1px;
+  margin: 6px 0 4px;
+}
+
+.stars b {
+  color: #f5a623;
+  font-weight: 400;
+}
+
+.rating-score .note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ============ Что нового ============ */
+.whats-new .version {
+  font-size: 13px;
+  color: var(--muted);
+  margin: -8px 0 12px;
+}
+
+.whats-new ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333;
+}
+
+/* ============ Описание ============ */
+.description {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #333;
+}
+
+.description p {
+  margin: 0 0 14px;
+}
+
+.description .more {
+  display: none;
+}
+
+.description.open .more {
+  display: block;
+}
+
+.toggle {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--blue);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  background: var(--soft);
+  border-radius: 20px;
+  padding: 6px 12px;
+}
+
+/* ============ Таблица информации ============ */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 26px;
+}
+
+.info-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.info-row:nth-last-child(-n+2) {
+  border-bottom: 0;
+}
+
+.info-label {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .4px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* ============ Разработчик ============ */
+.dev {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dev .profile-symbol {
+  width: 46px;
+  height: 46px;
+  border-width: 5px;
+  border-radius: 10px;
+  flex: 0 0 46px;
+}
+
+.dev .profile-symbol::before {
+  width: 13px;
+  height: 13px;
+  top: 4px;
+  left: 11px;
+}
+
+.dev .profile-symbol::after {
+  width: 26px;
+  height: 11px;
+  border-radius: 13px 13px 4px 4px;
+  bottom: 2px;
+  left: 4px;
+}
+
+.dev-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dev-role {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ============ Футер ============ */
+.footer {
+  padding: 22px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ============ Телефоны ============ */
+@media (max-width: 410px) {
+  .hero {
+    height: 105px;
+  }
+
+  .wordmark {
+    font-size: 48px;
+    letter-spacing: -3px;
+  }
+
+  .app-info {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .app-icon {
+    width: 88px;
+    height: 88px;
+    flex-basis: 88px;
+    border-radius: 22px;
+  }
+
+  .app-copy h1 {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 9px;
+  }
+
+  .download {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-value {
+    font-size: 21px;
+  }
+
+  .stat-note {
+    font-size: 10px;
+  }
+
+  .previews {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .preview {
+    flex-basis: 270px;
+    height: 410px;
+  }
+
+  .section {
+    padding: 18px 16px 22px;
+  }
+
+  .rating {
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+  }
+
+  .rating-score .score {
+    font-size: 40px;
+  }
+
+  .info-grid {
+    gap: 0 18px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <main class="page">
-    <header class="hero">
-      <div class="wordmark" aria-label="Tinder">TINDER</div>
-    </header>
+<main class="page">
 
-    <section class="app-info" aria-label="Информация о приложении">
-      <div class="app-icon" aria-hidden="true"><div class="flame"></div></div>
-      <div class="app-copy">
-        <h1>Tinder: новые знакомства и чат</h1>
-        <p class="subtitle">Встречи и общение рядом</p>
-        <div class="actions">
-          <a class="download" href="#" onclick="event.preventDefault()">Загрузить</a>
-          <span class="iap">Встроенные<br>покупки</span>
-        </div>
-      </div>
-    </section>
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="wordmark">DATYX</div>
+  </header>
 
-    <section class="stats" aria-label="Сведения о приложении">
-      <div class="stat">
-        <div class="stat-label">ВОЗРАСТ</div>
-        <div class="stat-value">18+</div>
-        <div class="stat-note">Элементы управ.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">РЕЙТИНГ</div>
-        <div class="stat-value">№8</div>
-        <div class="stat-note">Образ жизни</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">РАЗРАБОТЧИК</div>
-        <div class="stat-value"><span class="profile-symbol" aria-hidden="true"></span></div>
-        <div class="stat-note">Tinder LLC</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">ЯЗЫК</div>
-        <div class="stat-value">RU</div>
-        <div class="stat-note">и еще 54</div>
-      </div>
-    </section>
+  <!-- ================= О ПРИЛОЖЕНИИ ================= -->
+  <section class="app-info">
+    <div class="app-icon">
+      <img
+        src="https://i.postimg.cc/jdfff1hF/f17f3901-0be6-49b1-8ee5-405c96d2f248.png"
+        alt="Иконка Datyx"
+      >
+    </div>
 
-    <section class="previews" aria-label="Скриншоты приложения">
-      <article class="preview preview-one">
-        <div class="preview-heading">Всё<br>начинается<br>со свайпа</div>
-      </article>
-      <article class="preview preview-two">
-        <div class="preview-heading">Знакомься с тем,<br>кто тебя действительно<br>понимает</div>
-        <div class="woman-shape" aria-hidden="true"></div>
-        <div class="chat-bubble">«План на вечер — мой выбор, твой выбор, всё вместе»</div>
-      </article>
-    </section>
-  </main>
+    <div class="app-copy">
+      <h1>Datyx: знакомства в Telegram</h1>
+      <p class="subtitle">Мини-приложение для знакомств</p>
+
+      <div class="actions">
+        <a class="download" href="#">Загрузить</a>
+        <span class="iap">Встроенные<br>покупки</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= СТАТИСТИКА ================= -->
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">ВОЗРАСТ</div>
+      <div class="stat-value">18+</div>
+      <div class="stat-note">Элементы управ.</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">РЕЙТИНГ</div>
+      <div class="stat-value">1</div>
+      <div class="stat-note">Знакомства</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">РАЗРАБОТЧИК</div>
+      <div class="stat-value">
+        <span class="profile-symbol"></span>
+      </div>
+      <div class="stat-note">Verifure</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">ЯЗЫК</div>
+      <div class="stat-value">RU</div>
+      <div class="stat-note">только русский</div>
+    </div>
+  </section>
+
+  <!-- ================= ПРЕВЬЮ (3 ФОТО) ================= -->
+  <section class="previews">
+    <article class="preview" style="background-image: url('https://i.postimg.cc/BQtL3nbH/cd231769-d0d6-4304-9e90-b5f03404e469.jpg');"></article>
+
+    <article class="preview" style="background-image: url('https://i.postimg.cc/DzQm6WpJ/5d7188ad-4d70-45ec-8974-110fb59db9e6.jpg');"></article>
+
+    <article class="preview" style="background-image: url('https://i.postimg.cc/2Sh5jbDc/f4b9424e-c1db-4019-a2e3-4711e03ba720.jpg');"></article>
+  </section>
+
+  <!-- ================= ОЦЕНКИ И ОТЗЫВЫ ================= -->
+  <section class="section">
+    <h2 class="section-title">
+      Оценки и отзывы
+    </h2>
+
+    <div class="rating">
+      <div class="rating-score">
+        <div class="score">5.0</div>
+        <div class="stars"><b>★★★★★</b></div>
+        <div class="note">3 отзыва</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ЧТО НОВОГО ================= -->
+  <section class="section whats-new">
+    <h2 class="section-title">Что нового</h2>
+    <p class="version">Версия 1.0.0 · сегодня</p>
+    <ul>
+      <li>Теперь Datyx доступен не только в Telegram, но и как PWA — выбирайте, как удобнее!</li>
+      <li>Персональные сообщения в Telegram — только после взаимного лайка или обмена контактами. Остальное общение — в чатах Datyx.</li>
+      <li>Готовим запуск Datyx Premium вместе с Telegram Premium.</li>
+      <li>Регистрация временно приостановлена: тестируем профили, скоро вернём.</li>
+      <li>Переехали на собственный сервер — стало быстрее и надёжнее.</li>
+    </ul>
+  </section>
+
+  <!-- ================= ОПИСАНИЕ ================= -->
+  <section class="section">
+    <h2 class="section-title">Описание</h2>
+
+    <div class="description" id="description">
+      <p>
+        Datyx — это мини-приложение для знакомств в Telegram. Свайпайте,
+        общайтесь и находите новых друзей или вторую половинку.
+      </p>
+      <p>
+        Работает как в боте, так и в PWA. Выбирайте удобный формат,
+        знакомьтесь и общайтесь без лишних ограничений.
+      </p>
+
+      <div class="more">
+        <p>
+          <strong>Как это работает</strong><br>
+          Свайпните вправо, если человек вам интересен, и влево — если нет.
+          Когда симпатия совпадает, открывается чат, и вы можете начать разговор.
+        </p>
+        <p>
+          <strong>Datyx Premium</strong><br>
+          Скоро: подписка Datyx Premium вместе с Telegram Premium — больше
+          возможностей и приятных бонусов.
+        </p>
+        <p>
+          <strong>Безопасность</strong><br>
+          Персональные сообщения в Telegram — только после взаимного лайка
+          или обмена контактами. Всё остальное — внутри Datyx.
+        </p>
+      </div>
+
+      <button class="toggle" id="toggle" type="button">Показать полностью</button>
+
+      <div class="tags">
+        <span class="tag">Знакомства</span>
+        <span class="tag">Telegram</span>
+        <span class="tag">Общение</span>
+        <span class="tag">PWA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ИНФОРМАЦИЯ ================= -->
+  <section class="section">
+    <h2 class="section-title">Информация</h2>
+
+    <div class="info-grid">
+      <div class="info-row">
+        <div class="info-label">ПОСТАВЩИК</div>
+        <div class="info-value">Verifure</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">РАЗМЕР</div>
+        <div class="info-value">184,6 МБ</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">КАТЕГОРИЯ</div>
+        <div class="info-value">Знакомства</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">СОВМЕСТИМОСТЬ</div>
+        <div class="info-value">Telegram, PWA</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">ЯЗЫКИ</div>
+        <div class="info-value">Русский</div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">ВОЗРАСТ</div>
+        <div class="info-value">18+ · Элементы управления</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= РАЗРАБОТЧИК ================= -->
+  <section class="section">
+    <h2 class="section-title">
+      Разработчик
+    </h2>
+
+    <div class="dev">
+      <span class="profile-symbol"></span>
+      <div>
+        <div class="dev-name">Verifure</div>
+        <div class="dev-role">Разработчик · Знакомства</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ФУТЕР ================= -->
+  <footer class="footer">
+    Цены указаны в рублях. Встроенные покупки от 199 ₽.<br>
+    © 2025 Verifure. Все права защищены.
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    var box = document.getElementById('description');
+    var btn = document.getElementById('toggle');
+
+    btn.addEventListener('click', function () {
+      var open = box.classList.toggle('open');
+      btn.textContent = open ? 'Свернуть' : 'Показать полностью';
+    });
+  })();
+</script>
 </body>
 </html>
