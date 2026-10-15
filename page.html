@@ -35,23 +35,6 @@ body {
   padding-bottom: 40px;
 }
 
-/* ============ Верхняя часть ============ */
-.hero {
-  height: 105px;
-  background: #f3e6ef;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.wordmark {
-  color: var(--brand);
-  font-size: clamp(38px, 10vw, 74px);
-  font-weight: 950;
-  letter-spacing: -4px;
-  line-height: 1;
-}
-
 /* ============ Информация о приложении ============ */
 .app-info {
   display: flex;
@@ -426,15 +409,6 @@ body {
 
 /* ============ Телефоны ============ */
 @media (max-width: 410px) {
-  .hero {
-    height: 105px;
-  }
-
-  .wordmark {
-    font-size: 48px;
-    letter-spacing: -3px;
-  }
-
   .app-info {
     gap: 12px;
     padding: 16px;
@@ -506,11 +480,6 @@ body {
 <body>
 <main class="page">
 
-  <!-- ================= HERO ================= -->
-  <header class="hero">
-    <div class="wordmark">DATYX</div>
-  </header>
-
   <!-- ================= О ПРИЛОЖЕНИИ ================= -->
   <section class="app-info">
     <div class="app-icon">
@@ -525,7 +494,7 @@ body {
       <p class="subtitle">Мини-приложение для знакомств</p>
 
       <div class="actions">
-        <a class="download" href="#">Загрузить</a>
+        <a class="download" href="https://datyx-api.verifuree.workers.dev/">Установить</a>
         <span class="iap">Встроенные<br>покупки</span>
       </div>
     </div>
@@ -560,13 +529,15 @@ body {
     </div>
   </section>
 
-  <!-- ================= ПРЕВЬЮ (3 ФОТО) ================= -->
+  <!-- ================= ПРЕВЬЮ (4 ФОТО) ================= -->
   <section class="previews">
     <article class="preview" style="background-image: url('https://i.postimg.cc/BQtL3nbH/cd231769-d0d6-4304-9e90-b5f03404e469.jpg');"></article>
 
     <article class="preview" style="background-image: url('https://i.postimg.cc/DzQm6WpJ/5d7188ad-4d70-45ec-8974-110fb59db9e6.jpg');"></article>
 
     <article class="preview" style="background-image: url('https://i.postimg.cc/2Sh5jbDc/f4b9424e-c1db-4019-a2e3-4711e03ba720.jpg');"></article>
+
+    <article class="preview" style="background-image: url('https://i.postimg.cc/HLKHQTdG/ab3d61bf-2c9b-411d-bbe6-ca8724fc9922.jpg');"></article>
   </section>
 
   <!-- ================= ОЦЕНКИ И ОТЗЫВЫ ================= -->
