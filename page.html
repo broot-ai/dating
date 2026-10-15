@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tinder — страница приложения</title>
+  <style>
+    :root {
+      --tinder-red: #e50914;
+      --pale-pink: #f3e6ef;
+      --text: #171717;
+      --muted: #8a8a8a;
+      --line: #eeeeee;
+      --blue: #168bf0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: #fff;
+    }
+    .page { width: 100%; max-width: 760px; margin: 0 auto; overflow: hidden; }
+    .hero {
+      height: 230px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 20px;
+      background: var(--pale-pink);
+    }
+    .wordmark {
+      color: var(--tinder-red);
+      font-size: clamp(48px, 13vw, 102px);
+      line-height: 1;
+      letter-spacing: -5px;
+      font-weight: 950;
+      transform: scaleX(.94);
+    }
+    .app-info {
+      display: flex;
+      gap: 22px;
+      padding: 27px 27px 28px;
+      align-items: center;
+      border-bottom: 1px solid #f4f4f4;
+    }
+    .app-icon {
+      width: 158px;
+      height: 158px;
+      flex: 0 0 158px;
+      background: #df090e;
+      border-radius: 34px;
+      display: grid;
+      place-items: center;
+    }
+    .flame {
+      width: 83px;
+      height: 112px;
+      background: #f5e7f0;
+      clip-path: path("M 42 0 C 55 22 48 37 39 49 C 33 55 28 53 27 43 C 12 56 4 72 9 88 C 14 106 31 113 47 111 C 69 108 82 91 81 71 C 80 49 64 25 42 0 Z");
+      border-radius: 50%;
+    }
+    .app-copy { min-width: 0; flex: 1; }
+    .app-copy h1 {
+      font-size: 28px;
+      line-height: 1.25;
+      margin: 0 0 5px;
+      font-weight: 750;
+      letter-spacing: -.5px;
+    }
+    .subtitle { color: var(--muted); font-size: 20px; margin: 0 0 17px; }
+    .actions { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+    .download {
+      display: inline-block;
+      color: white;
+      background: var(--blue);
+      border-radius: 28px;
+      padding: 11px 20px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+    .iap { font-size: 11px; line-height: 1.2; color: #777; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 17px 0 22px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .stat { text-align: center; padding: 0 7px; min-width: 0; }
+    .stat + .stat { border-left: 1px solid #f1f1f1; }
+    .stat-label {
+      font-size: 14px;
+      color: #a6a6a6;
+      letter-spacing: .6px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .stat-value { color: #858585; font-size: 29px; font-weight: 650; line-height: 1.1; }
+    .stat-note { color: #777; font-size: 16px; white-space: nowrap; margin-top: 10px; }
+    .profile-symbol {
+      display: inline-block; width: 34px; height: 34px;
+      border: 5px solid #888; border-radius: 7px; position: relative;
+      vertical-align: middle; margin-top: -4px;
+    }
+    .profile-symbol:before {
+      content: ""; position: absolute; width: 10px; height: 10px;
+      border-radius: 50%; background: #888; top: 3px; left: 7px;
+    }
+    .profile-symbol:after {
+      content: ""; position: absolute; width: 19px; height: 8px;
+      border-radius: 10px 10px 3px 3px; background: #888; bottom: 2px; left: 2.5px;
+    }
+    .previews {
+      display: flex;
+      gap: 14px;
+      padding: 26px 27px 35px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .previews::-webkit-scrollbar { display: none; }
+    .preview {
+      position: relative;
+      flex: 0 0 348px;
+      height: 520px;
+      border-radius: 31px;
+      overflow: hidden;
+      background: #e9e9e9;
+      border: 1px solid #e6e6e6;
+    }
+    .preview-one {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 43%),
+        radial-gradient(ellipse at 18% 90%, #9b6b54 0 15%, transparent 34%),
+        radial-gradient(ellipse at 75% 91%, #c58d72 0 17%, transparent 34%),
+        linear-gradient(130deg, #d4e0d5, #f8f8f5 38%, #9fb3b0 75%, #dfe7db);
+    }
+    .preview-one:before, .preview-one:after {
+      content: ""; position: absolute; bottom: -35px; width: 185px; height: 270px;
+      border-radius: 48% 48% 12% 12%;
+      background: linear-gradient(145deg, #d99e7c, #8e4c39 55%, #3e3433);
+      transform: rotate(-13deg);
+    }
+    .preview-one:before { left: -12px; }
+    .preview-one:after {
+      right: -15px; transform: rotate(13deg);
+      background: linear-gradient(145deg, #f0c5a8, #b97e64 55%, #58413d);
+    }
+    .preview-heading {
+      position: relative; z-index: 1; text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700; font-size: 43px; line-height: .98;
+      margin: 57px 12px 0; color: #273438;
+    }
+    .preview-two {
+      background: radial-gradient(ellipse at 50% 82%, #df9b6c 0 13%, transparent 32%),
+                  linear-gradient(160deg, #57000b 0 48%, #17120f 49%, #080808 100%);
+      color: #fff;
+    }
+    .preview-two .preview-heading {
+      font-size: 29px; line-height: 1.05; margin: 58px 10px 0; color: #fff;
+    }
+    .chat-bubble {
+      position: absolute; right: -8px; top: 205px; background: #fff; color: #222;
+      border-radius: 15px; padding: 18px 14px; width: 155px;
+      font-size: 17px; font-weight: 650; transform: rotate(2deg);
+    }
+    .woman-shape {
+      position: absolute; bottom: -25px; left: 56px; width: 130px; height: 220px;
+      border-radius: 48% 48% 8% 8%;
+      background: linear-gradient(90deg, #d28b69, #f2bd99 48%, #b8765d);
+      transform: rotate(-5deg);
+    }
+    @media (max-width: 520px) {
+      .hero { height: 230px; padding-top: 23px; }
+      .wordmark { letter-spacing: -3px; }
+      .app-info { gap: 20px; padding: 27px 27px 28px; }
+      .app-icon { width: 158px; height: 158px; flex-basis: 158px; }
+      .app-copy h1 { font-size: 27px; }
+      .subtitle { font-size: 20px; }
+      .stat-label { font-size: 13px; }
+      .stat-value { font-size: 28px; }
+      .stat-note { font-size: 15px; }
+      .preview { flex-basis: 348px; }
+    }
+    @media (max-width: 410px) {
+      .app-info { gap: 15px; padding-left: 18px; padding-right: 18px; }
+      .app-icon { width: 115px; height: 115px; flex-basis: 115px; border-radius: 27px; }
+      .flame { transform: scale(.78); }
+      .app-copy h1 { font-size: 21px; }
+      .subtitle { font-size: 15px; margin-bottom: 12px; }
+      .download { font-size: 15px; padding: 9px 15px; }
+      .iap { font-size: 9px; }
+      .stat-label { font-size: 10px; }
+      .stat-value { font-size: 23px; }
+      .stat-note { font-size: 11px; }
+      .previews { padding-left: 18px; padding-right: 18px; }
+      .preview { flex-basis: 300px; height: 470px; }
+      .preview-heading { font-size: 37px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div class="wordmark" aria-label="Tinder">TINDER</div>
+    </header>
+
+    <section class="app-info" aria-label="Информация о приложении">
+      <div class="app-icon" aria-hidden="true"><div class="flame"></div></div>
+      <div class="app-copy">
+        <h1>Tinder: новые знакомства и чат</h1>
+        <p class="subtitle">Встречи и общение рядом</p>
+        <div class="actions">
+          <a class="download" href="#" onclick="event.preventDefault()">Загрузить</a>
+          <span class="iap">Встроенные<br>покупки</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Сведения о приложении">
+      <div class="stat">
+        <div class="stat-label">ВОЗРАСТ</div>
+        <div class="stat-value">18+</div>
+        <div class="stat-note">Элементы управ.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">РЕЙТИНГ</div>
+        <div class="stat-value">№8</div>
+        <div class="stat-note">Образ жизни</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">РАЗРАБОТЧИК</div>
+        <div class="stat-value"><span class="profile-symbol" aria-hidden="true"></span></div>
+        <div class="stat-note">Tinder LLC</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">ЯЗЫК</div>
+        <div class="stat-value">RU</div>
+        <div class="stat-note">и еще 54</div>
+      </div>
+    </section>
+
+    <section class="previews" aria-label="Скриншоты приложения">
+      <article class="preview preview-one">
+        <div class="preview-heading">Всё<br>начинается<br>со свайпа</div>
+      </article>
+      <article class="preview preview-two">
+        <div class="preview-heading">Знакомься с тем,<br>кто тебя действительно<br>понимает</div>
+        <div class="woman-shape" aria-hidden="true"></div>
+        <div class="chat-bubble">«План на вечер — мой выбор, твой выбор, всё вместе»</div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
